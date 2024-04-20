@@ -28,7 +28,7 @@ def extract_texts_from_data(data):
     return text_splitter.split_text(raw_text)
 
 
-def get_data_for_augmentation_from_raw_data(raw_data_for_augmentation):
+def get_vectorstore_from_raw_data(raw_data_for_augmentation):
     texts_for_augmentation = extract_texts_from_data(raw_data_for_augmentation)
     return FAISS.from_texts(texts_for_augmentation,
                             embedding=HuggingFaceEmbeddings(
@@ -38,24 +38,24 @@ def get_data_for_augmentation_from_raw_data(raw_data_for_augmentation):
                             ))
 
 
-def ask_question(data_for_augmentation, query):
+def ask_question(vectorstore, query):
     llm = CTransformers(
         model=os.path.join(os.path.dirname(__file__), "transformers", "llama-2-7b-chat.Q4_0.gguf"),
         model_type="llama",
         config={'max_new_tokens': 300, 'temperature': 0.01, 'context_length': 1000})
     chain = load_qa_chain(llm)
 
-    return chain.invoke({"input_documents": data_for_augmentation.similarity_search(query),
+    return chain.invoke({"input_documents": vectorstore.similarity_search(query),
                          "question": query})
 
 
 def main():
     raw_data = os.path.join(os.path.dirname(__file__), "data", "example.pdf")
-    data_for_augmentation = get_data_for_augmentation_from_raw_data(raw_data)
+    vectorstore = get_vectorstore_from_raw_data(raw_data)
 
     query = "What will Mr. Pallino most probably eat on wednesday?"
 
-    result = ask_question(data_for_augmentation, query=query)
+    result = ask_question(vectorstore, query=query)
     print(result)
 
     print(f"The answer to the question is:\n{result['output_text']}")
