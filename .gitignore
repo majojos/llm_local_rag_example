@@ -1,0 +1,4 @@
+/venv
+/storage
+/transformers/*
+/.idea

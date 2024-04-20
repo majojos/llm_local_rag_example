@@ -1,0 +1,7 @@
+sentence-transformers
+ctransformers
+langchain
+langchain-chroma
+pypdf2
+faiss-cpu
+python-dotenv

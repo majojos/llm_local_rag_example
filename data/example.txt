@@ -1,0 +1,7 @@
+Pinco Pallino works for SomeCompany Corporation.
+
+Pinco Pallino's favorite fruits are bananas.
+
+At SomeCompany Corporation wednesday is fruit day, this means that on wednesday in the company there are apples, pears and bananas.
+
+If Pinco Pallino is at SomeCompany Corporation on wednesday he likes to eat his favorite fruit.
